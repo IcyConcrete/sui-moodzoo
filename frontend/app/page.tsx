@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -24,9 +25,9 @@ export default function Home() {
           <p className="text-2xl text-cyan-300 mb-10">Express Your Emotions Through Sound</p>
           
           <div className="border-t border-b border-cyan-500/30 py-10 my-10">
-            <button className="bg-gradient-to-r from-cyan-500 to-pink-500 hover:from-cyan-600 hover:to-pink-600 text-white font-bold py-5 px-10 rounded-full mb-10 shadow-[0_0_15px_rgba(0,255,255,0.7)] transition-all hover:shadow-[0_0_25px_rgba(0,255,255,0.9)] flex items-center justify-center gap-3 w-full sm:w-auto mx-auto">
+            <Link href="/upload" className="bg-gradient-to-r from-cyan-500 to-pink-500 hover:from-cyan-600 hover:to-pink-600 text-white font-bold py-5 px-10 rounded-full mb-10 shadow-[0_0_15px_rgba(0,255,255,0.7)] transition-all hover:shadow-[0_0_25px_rgba(0,255,255,0.9)] flex items-center justify-center gap-3 w-full sm:w-auto mx-auto">
               <span className="text-2xl">🎤 Start Minting Your Mood</span>
-            </button>
+            </Link>
           
             <div className="flex flex-col space-y-6 text-left max-w-xl mx-auto">
               <a href="#" className="text-xl text-cyan-300 hover:text-pink-400 transition-colors flex items-center gap-3">
