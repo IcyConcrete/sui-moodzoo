@@ -1,0 +1,106 @@
+@import "tailwindcss";
+
+:root {
+  --background: #000000;
+  --foreground: #ffffff;
+  --cyan-glow: #00FFFF;
+  --pink-glow: #FF00FF;
+}
+
+:root {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: 'Rajdhani', 'Orbitron', Arial, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Cyberpunk Glitch Text Effect */
+.glitch-text {
+  position: relative;
+  text-shadow: 
+    0 0 5px var(--cyan-glow),
+    0 0 10px var(--cyan-glow),
+    0 0 15px var(--cyan-glow);
+  animation: glitch 3s infinite alternate-reverse;
+}
+
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.8;
+}
+
+.glitch-text::before {
+  color: var(--cyan-glow);
+  z-index: -1;
+  animation: glitch-anim 2s infinite alternate-reverse;
+}
+
+.glitch-text::after {
+  color: var(--pink-glow);
+  z-index: -2;
+  animation: glitch-anim 2s infinite alternate-reverse reverse;
+}
+
+@keyframes glitch {
+  0% {
+    text-shadow: 0 0 5px var(--cyan-glow), 0 0 10px var(--cyan-glow);
+  }
+  50% {
+    text-shadow: 0 0 5px var(--pink-glow), 0 0 10px var(--pink-glow);
+  }
+  100% {
+    text-shadow: 0 0 5px var(--cyan-glow), 0 0 10px var(--cyan-glow);
+  }
+}
+
+@keyframes glitch-anim {
+  0% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-2px, 2px);
+  }
+  40% {
+    transform: translate(-2px, -2px);
+  }
+  60% {
+    transform: translate(2px, 2px);
+  }
+  80% {
+    transform: translate(2px, -2px);
+  }
+  100% {
+    transform: translate(0);
+  }
+}
+
+@keyframes scan {
+  0% {
+    top: 0%;
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.1;
+  }
+  100% {
+    top: 100%;
+    opacity: 0.5;
+  }
+}
+
+.animate-scan {
+  animation: scan 8s linear infinite;
+}
