@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import WalletButton from "./components/WalletButton";
 
 export default function Home() {
   return (
@@ -39,9 +40,7 @@ export default function Home() {
             </div>
           </div>
           
-          <button className="border-2 border-cyan-500 text-cyan-400 hover:bg-cyan-900/30 font-medium py-3 px-8 rounded-full transition-all hover:shadow-[0_0_15px_rgba(0,255,255,0.5)] text-xl">
-            Connect Wallet
-          </button>
+          <WalletButton />
         </div>
       </div>
 
