@@ -161,6 +161,12 @@ export default function DegenZonePageClient() {
           <div className="absolute -top-20 -left-20 w-40 h-40 rounded-full bg-cyan-500/10 blur-2xl"></div>
           <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-pink-500/10 blur-2xl"></div>
           
+          <div className="flex justify-start mb-4">
+            <Link href="/" className="text-cyan-400 hover:text-cyan-300 transition-colors flex items-center gap-1 text-sm group">
+              <span className="group-hover:-translate-x-1 transition-transform">←</span> <span>BACK TO HOME</span>
+            </Link>
+          </div>
+          
           <div className="text-center relative">
             <h1 className="text-5xl font-bold mb-3 text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-pink-500 glitch-text" data-text="🐸 DEGEN ANIMAL ZONE">
               🐸 DEGEN ANIMAL ZONE

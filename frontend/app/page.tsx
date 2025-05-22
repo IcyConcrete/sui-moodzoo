@@ -31,7 +31,7 @@ export default function Home() {
             </Link>
           
             <div className="flex flex-col space-y-6 text-left max-w-xl mx-auto">
-              <a href="#" className="text-xl text-cyan-300 hover:text-pink-400 transition-colors flex items-center gap-3">
+              <a href="/degen" className="text-xl text-cyan-300 hover:text-pink-400 transition-colors flex items-center gap-3">
                 <span className="text-pink-500 text-2xl">→</span> Explore Mood NFTs
               </a>
               <a href="#" className="text-xl text-cyan-300 hover:text-pink-400 transition-colors flex items-center gap-3">
