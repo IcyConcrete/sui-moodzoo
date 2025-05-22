@@ -18,7 +18,9 @@
     "cd": "^0.3.3",
     "next": "15.3.2",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-dropzone": "^14.3.8",
+    "web3.storage": "^4.5.5"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
