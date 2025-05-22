@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import { uploadNFTToLighthouse } from '../utils/lighthouse';
 
 // Type definitions
 interface UploadData {
@@ -26,6 +27,10 @@ export default function GeneratePageClient() {
   const [generatedAnimal, setGeneratedAnimal] = useState<string>('🐶'); // Default animal
   const [animalDescription, setAnimalDescription] = useState<string>('Shiba with sunglasses 🕶️');
   const [isLoading, setIsLoading] = useState(true);
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
+  const [uploadSuccess, setUploadSuccess] = useState(false);
+  const [lighthouseCID, setLighthouseCID] = useState<string | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   // Animals and descriptions mapping based on emotions
@@ -166,6 +171,56 @@ export default function GeneratePageClient() {
       case 'CHAOS': return '🤯';
       case 'CUSTOM': return '✨';
       default: return '😐';
+    }
+  };
+
+  // Handle uploading to Lighthouse.storage
+  const handleUploadToLighthouse = async () => {
+    if (!uploadData || !audioSrc) {
+      setUploadError('No data to upload');
+      return;
+    }
+
+    try {
+      setIsUploading(true);
+      setUploadError(null);
+
+      // Prepare metadata
+      const metadata = {
+        name: `MoodZoo - ${uploadData.emotion === 'CUSTOM' && uploadData.customEmotion ? uploadData.customEmotion : uploadData.emotion}`,
+        description: uploadData.description,
+        emotion: uploadData.emotion,
+        customEmotion: uploadData.customEmotion,
+        animal: generatedAnimal,
+        animalDescription: animalDescription,
+        createdAt: new Date().toISOString(),
+        intensity: calculateIntensity().label,
+        fileName: uploadData.fileName
+      };
+
+      // Upload to Lighthouse
+      const response = await uploadNFTToLighthouse(
+        audioSrc,
+        uploadData.fileName || 'audio.mp3',
+        metadata
+      );
+
+      if (response.success && response.data) {
+        console.log('Upload successful! CID:', response.data.data.Hash);
+        setLighthouseCID(response.data.data.Hash);
+        setUploadSuccess(true);
+        
+        // Store CID in localStorage
+        localStorage.setItem('moodZooLighthouseCID', response.data.data.Hash);
+        localStorage.setItem('moodZooUploadedMetadata', JSON.stringify(metadata));
+      } else {
+        throw new Error('Upload failed');
+      }
+    } catch (error: any) {
+      console.error('Error uploading to Lighthouse:', error);
+      setUploadError(error.message || 'Error uploading to Lighthouse');
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -363,10 +418,30 @@ export default function GeneratePageClient() {
             <span>←</span> <span>BACK TO EDIT</span>
           </Link>
           
-          <Link href="/mint" className="bg-gradient-to-r from-cyan-500 to-pink-500 hover:from-cyan-600 hover:to-pink-600 text-white font-bold py-2 px-6 rounded-full shadow-[0_0_10px_rgba(0,255,255,0.5)] transition-all hover:shadow-[0_0_15px_rgba(0,255,255,0.7)] hover:scale-105 flex items-center gap-2 group text-sm">
-            <span>MINT THIS NFT</span>
-            <span className="text-lg">💎</span>
-          </Link>
+          {isUploading ? (
+            <button disabled className="bg-gradient-to-r from-cyan-500/50 to-pink-500/50 text-white font-bold py-2 px-6 rounded-full shadow-[0_0_10px_rgba(0,255,255,0.3)] flex items-center gap-2 group text-sm cursor-not-allowed">
+              <span className="flex items-center">
+                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                UPLOADING TO IPFS...
+              </span>
+            </button>
+          ) : uploadSuccess ? (
+            <Link href={`/mint?cid=${lighthouseCID}`} className="bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 text-white font-bold py-2 px-6 rounded-full shadow-[0_0_10px_rgba(0,255,255,0.5)] transition-all hover:shadow-[0_0_15px_rgba(0,255,255,0.7)] hover:scale-105 flex items-center gap-2 group text-sm">
+              <span>CONTINUE TO MINT</span>
+              <span className="text-lg">✅</span>
+            </Link>
+          ) : (
+            <button 
+              onClick={handleUploadToLighthouse} 
+              className="bg-gradient-to-r from-cyan-500 to-pink-500 hover:from-cyan-600 hover:to-pink-600 text-white font-bold py-2 px-6 rounded-full shadow-[0_0_10px_rgba(0,255,255,0.5)] transition-all hover:shadow-[0_0_15px_rgba(0,255,255,0.7)] hover:scale-105 flex items-center gap-2 group text-sm"
+            >
+              <span>MINT THIS NFT</span>
+              <span className="text-lg">💎</span>
+            </button>
+          )}
         </div>
       </div>
       
