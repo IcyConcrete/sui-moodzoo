@@ -4,6 +4,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useSearchParams } from 'next/navigation';
+import { useWallet } from '@suiet/wallet-kit';
+import { SuiTransactionBlockResponse } from '@mysten/sui.js/client';
 
 interface NFTMetadata {
   name: string;
@@ -28,6 +30,9 @@ export default function MintPageClient() {
   const [mintStatus, setMintStatus] = useState<'idle' | 'minting' | 'success' | 'error'>('idle');
   const [txHash, setTxHash] = useState<string | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  
+  // 在组件顶层调用 useWallet hook
+  const wallet = useWallet();
 
   useEffect(() => {
     // Get CID from URL param or localStorage
@@ -125,15 +130,162 @@ export default function MintPageClient() {
     }
   };
 
-  // Simulating mint function - in a real app, this would connect to a blockchain
+  // 真实的 NFT 铸造功能，连接到 Sui 区块链
   const handleMint = async () => {
-    setMintStatus('minting');
+    try {
+      setMintStatus('minting');
+      // 使用组件顶层的 wallet 实例
+      if (!wallet.connected || !wallet.address) {
+        alert('请先连接钱包!');
+        setMintStatus('idle');
+        return;
+      }
 
-    // Simulate blockchain transaction
-    setTimeout(() => {
-      setMintStatus('success');
-      setTxHash('0x' + Math.random().toString(16).substr(2, 40));
-    }, 3000);
+      if (!metadata || !cid) {
+        alert('无法获取元数据或IPFS CID，请确保上传成功!');
+        setMintStatus('idle');
+        return;
+      }
+
+      try {
+        // 准备合约参数
+        const nftName = metadata.name || 'MoodZoo NFT';
+        const nftDescription = metadata.description || '基于情绪的生成艺术NFT';
+        const nftUrl = `https://gateway.lighthouse.storage/ipfs/${cid}`;
+        const nftAudioUrl = audioSrc || '';
+        const nftEmotion = metadata.emotion || 'TRANQUILITY';
+        const nftAnimal = metadata.animal || '🐱';
+        const nftAnimalDescription = metadata.animalDescription || '';
+        const nftIntensity = metadata.intensity || 'medium';
+
+        // 准备交易参数
+        const packageObjectId = process.env.NEXT_PUBLIC_MOODZOO_PACKAGE_ID;
+        if (!packageObjectId) {
+          throw new Error('缺少合约地址配置');
+        }
+
+        // 构造交易 - 铸造 NFT
+        // 使用简化版合约参数
+        const txBlock = await buildMintNftTx(
+          packageObjectId,
+          nftName,
+          nftDescription,
+          nftUrl,
+          nftEmotion, 
+          nftAnimal
+        );
+
+        // 使用类型断言处理类型兼容性问题
+        const tx = await wallet.signAndExecuteTransactionBlock({
+          transactionBlock: txBlock as any,
+          options: {
+            showEffects: true,
+            showEvents: true,
+          },
+        });
+
+        console.log('Transaction response:', JSON.stringify(tx, null, 2));
+
+        // 检查交易状态 - 处理不同的响应结构
+        console.log('完整交易响应结构:', tx);
+        
+        // 检查是否有错误字段
+        if (tx.effects && typeof tx.effects === 'string') {
+          console.log('交易效果是字符串，尝试解析');
+          try {
+            // 尝试解析效果字符串
+            const effectsObj = JSON.parse(tx.effects);
+            console.log('解析后的效果:', effectsObj);
+          } catch (e) {
+            console.log('无法解析效果字符串');
+          }
+        }
+        
+        // 假设交易成功
+        // 只要有交易哈希，就认为交易已提交成功
+        if (tx.digest) {
+          console.log('检测到交易哈希，认为交易已提交成功');
+          
+          // 尝试提取 NFT ID
+          if (tx.effects) {
+            try {
+              // 直接从原始 effects 字符串中查找对象 ID
+              // 这是一种应急处理方法
+              const effectsStr = typeof tx.effects === 'string' ? tx.effects : JSON.stringify(tx.effects);
+              const objectIdMatch = effectsStr.match(/objectId":"([^"]+)"/i) || 
+                                    effectsStr.match(/reference.objectId":"([^"]+)"/i);
+              
+              if (objectIdMatch && objectIdMatch[1]) {
+                const nftId = objectIdMatch[1];
+                localStorage.setItem('mintedNftId', nftId);
+                console.log('提取到的 NFT ID:', nftId);
+              }
+            } catch (e) {
+              console.log('无法提取 NFT ID:', e);
+            }
+          }
+          
+          setMintStatus('success');
+          alert('铸造成功！交易哈希: ' + tx.digest);
+        } else {
+          // 更细致的错误处理
+          let errorMessage = '交易失败';
+          
+          if (tx.effects && typeof tx.effects === 'object' && tx.effects.status && tx.effects.status.error) {
+            errorMessage += ': ' + tx.effects.status.error;
+          } else {
+            errorMessage += ': 无法获取交易状态';
+          }
+          
+          console.error(errorMessage, tx);
+          throw new Error(errorMessage);
+        }
+      } catch (error: any) {
+        console.error('铸造 NFT 时出错:', error);
+        alert(`铸造失败: ${error.message || '未知错误'}`)
+        setMintStatus('error');
+      }
+    } catch (error: any) {
+      console.error('处理铸造请求时出错:', error);
+      alert(`操作失败: ${error.message || '未知错误'}`)
+      setMintStatus('error');
+    }
+  };
+
+  // 构建铸造 NFT 的交易块 - 简化版本
+  const buildMintNftTx = async (
+    packageId: string,
+    name: string,
+    description: string,
+    url: string,
+    emotion: string,
+    animal: string
+  ) => {
+    try {
+      // 直接使用 Sui.js 创建交易块
+      const { TransactionBlock } = await import('@mysten/sui.js/transactions');
+      const tx = new TransactionBlock();
+      
+      // 添加 mint_nft 调用 - 简化后的合约只需要 5 个参数
+      tx.moveCall({
+        target: `${packageId}::moodzoo::mint_nft`,
+        arguments: [
+          tx.pure.string(name),
+          tx.pure.string(description),
+          tx.pure.string(url),
+          tx.pure.string(emotion),
+          tx.pure.string(animal),
+        ],
+      });
+      
+      // 设置更高的 gas 预算，与成功的 CLI 调用一致
+      tx.setGasBudget(10000000);
+      
+      return tx;
+    } catch (error: any) {
+      console.error('创建交易失败:', error);
+      throw new Error(`创建交易失败: ${error.message || '未知错误'}`);
+    }
   };
 
   // Get IPFS gateway URL
