@@ -1,11 +1,9 @@
 import NFTDetailPageClient from './page.client';
 
 // 异步页面组件
-export default async function Page(props: {
-  params: Promise<{ id: string }>;
-}) {
+export default async function Page({params}: {params: Promise<{ id: string }>}) {
   // 获取路由参数
-  const { id } = await props.params;
+  const { id } = await params;
   
   // 这里可以异步获取 NFT 数据
   // 例如: const nftData = await fetchNFTData(id);
