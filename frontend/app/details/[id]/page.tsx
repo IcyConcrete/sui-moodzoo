@@ -1,8 +1,6 @@
-import React from 'react';
+// Simplest possible implementation for Next.js app router dynamic route
 import NFTDetailPageClient from './page.client';
 
-
-// This is a dynamic route component that will receive the NFT id as a parameter
-export default function NFTDetailPage({ params }: { params: { id: string } }) {
-  return <NFTDetailPageClient id={params.id} />;
+export default function Page(props: any) {
+  return <NFTDetailPageClient id={props.params.id} />;
 }
