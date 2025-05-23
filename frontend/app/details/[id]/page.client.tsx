@@ -22,7 +22,7 @@ interface NFTDetail {
   price?: string;
 }
 
-export default function NFTDetailPageClient({ id }: { id: string }) {
+export default function NFTDetailPageClient({id}: {id: string}) {
   const router = useRouter();
   const [nftDetail, setNftDetail] = useState<NFTDetail | null>(null);
   const [loading, setLoading] = useState(true);
