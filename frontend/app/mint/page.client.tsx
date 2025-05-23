@@ -463,7 +463,7 @@ export default function MintPageClient() {
               <div className="flex items-center">
                 <span className="text-cyan-300 text-sm w-28">Network:</span>
                 <span className="text-white text-sm flex items-center">
-                  <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span> Sui Mainnet
+                  <span className="w-2 h-2 bg-green-500 rounded-full mr-2"></span> Sui Testnet
                 </span>
               </div>
             </div>
