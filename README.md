@@ -1,31 +1,31 @@
-sui的MoodZoo 项目的用户旅程图（User Journey Map），基于MVP和“情绪音频 + 可爱动物 + Degen NFT”主题，清晰描述用户从进入平台到参与互动的整个流程
-+---------------------+       +---------------------------+       +----------------------+       +-----------------------+
-|   进入 MoodZoo      |  -->  |   连接钱包 / 登录         |  -->  | 上传音频 + 选择情绪   |  -->  |   系统生成动物形象 + NFT预览  |
-+---------------------+       +---------------------------+       +----------------------+       +-----------------------+
-        🐾                   用户点击“Connect Wallet”           选择或拖拽音频上传         🎨 生成动物图 + 情绪说明
- MoodZoo 首页展示品牌形象   使用 MetaMask / Sui钱包登录        选择情绪标签 + 自定义描述     自动生成封面图/NFT预览
-                             （自动识别身份）                   点击“下一步”               点击“MINT NFT”进入下一步
+MoodZoo is a playful, emotional NFT minting platform that combines mood-based audio uploads with AI-generated animal visuals, all on the Sui blockchain. Below is the complete user journey for the MVP.
++------------------------+       +-----------------------------+       +------------------------+       +-----------------------------+
+|   Visit MoodZoo        |  -->  |   Connect Wallet / Sign In  |  -->  | Upload Audio + Choose Mood |  -->  | Animal Generation + NFT Preview |
++------------------------+       +-----------------------------+       +------------------------+       +-----------------------------+
+        🐾                        User clicks “Connect Wallet”             Upload or drag & drop audio       🎨 Generate animal + mood metadata
+MoodZoo landing page      Use MetaMask or Sui Wallet for login         Choose mood tag + add description  Preview generated NFT cover image
+Displays brand & vibe     (identity auto-detected)                     Click “Next” to continue            Click “MINT NFT” to proceed
 
-               ↓                                                    ↓
-+--------------------------+                          +-------------------------------+
-|  铸造 NFT（IPFS + Sui链）|  <----------------------  |  用户确认铸造 NFT              |
-+--------------------------+                          +-------------------------------+
-    将音频 + 情绪上传 IPFS                                    显示合约确认页
-    铸造 ERC721 / Sui NFT                                     确认后成功写入链上
-    返回 NFT 浏览页                                            显示“铸造成功”
+                     ↓                                                     ↓
++------------------------------+                          +---------------------------------+
+|   Mint NFT (IPFS + Sui)      |  <----------------------  |   User Confirms Minting         |
++------------------------------+                          +---------------------------------+
+Upload audio + mood data to IPFS                             Show contract confirmation screen  
+Mint NFT on Sui blockchain                                   On confirm, write to chain  
+Redirect to NFT gallery view                                 Show “Mint Successful” message
 
-               ↓
-+--------------------------+       +------------------------------------+
-| 浏览社区 NFT 页面        |  -->  | 查看单个 NFT 详情页（含点赞）        |
-+--------------------------+       +------------------------------------+
-    可按情绪分类浏览 NFT            展示：音频播放 + 情绪 + 动物图像
-    用户点击 ❤️点赞或评论           链上信息 / IPFS 链接 / 铸造时间
-    查看排行榜、热门情绪            返回浏览页按钮
+                     ↓
++------------------------------+       +---------------------------------------------+
+|  Explore MoodZoo Gallery     |  -->  |  View NFT Detail Page (w/ Like & Info)       |
++------------------------------+       +---------------------------------------------+
+Browse NFTs by mood category             Display: audio player, mood info, animal art  
+Users can ❤️ Like or comment            On-chain data, IPFS link, mint timestamp  
+Explore trending moods & leaderboard     “Back to Gallery” button available
 
-               ↓
-+--------------------------+       
-| Degen动物页面（扩展）     |
-+--------------------------+
-    浏览 Meme 动物NFT合集
-    含滑稽语录、宠物头像等元素
-    可 mint 特殊 degen NFT
+                     ↓
++------------------------------+       
+|  Degen Animal Page (Bonus)   |
++------------------------------+
+Browse a special Meme NFT collection  
+Includes viral pets, quotes, and degen humor  
+Option to mint limited edition Degen NFTs  

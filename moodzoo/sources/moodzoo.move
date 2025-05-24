@@ -1,4 +1,4 @@
-/// MoodZoo NFT 合约 - 基于情绪和动物的数字藏品
+/// MoodZoo NFT Contract - Digital collectibles based on emotions and animals
 module moodzoo::moodzoo {
     use sui::transfer;
     use sui::object::{Self, UID};
@@ -7,12 +7,12 @@ module moodzoo::moodzoo {
     use sui::event;
     use std::string::{Self, String};
 
-    // ===== 合约发布时的一次性见证结构 =====
+    // ===== One-time witness structure for contract deployment =====
     public struct MOODZOO has drop {}
 
-    // ===== 主要存储结构 =====
+    // ===== Main storage structures =====
     
-    /// MoodZoo NFT 主要结构
+    /// MoodZoo NFT main structure
     public struct MoodZooNFT has key, store {
         id: UID,
         name: String,
@@ -23,24 +23,24 @@ module moodzoo::moodzoo {
         creator: address
     }
 
-    // ===== 事件 =====
+    // ===== Events =====
     
-    /// NFT 铸造事件
+    /// NFT minting event
     public struct NFTMinted has copy, drop {
         nft_id: address,
         name: String,
         creator: address
     }
 
-    // ===== 函数 =====
+    // ===== Functions =====
 
-    /// 初始化函数，在合约发布时执行一次
+    /// Initialization function, executed once when the contract is published
     fun init(witness: MOODZOO, ctx: &mut TxContext) {
-        // 快速初始化，仅保留核心功能
+        // Quick initialization, only keeping core functionality
         let _ = witness;
     }
 
-    /// 创建 NFT（由用户调用）
+    /// Create NFT (called by users)
     public entry fun mint_nft(
         name: vector<u8>,
         description: vector<u8>,
@@ -61,45 +61,45 @@ module moodzoo::moodzoo {
             creator: sender
         };
 
-        // 发出铸造事件
+        // Emit minting event
         event::emit(NFTMinted {
             nft_id: object::uid_to_address(&nft.id),
             name: nft.name,
             creator: sender
         });
 
-        // 将 NFT 转移给创建者
+        // Transfer NFT to creator
         transfer::public_transfer(nft, sender);
     }
 
-    // ===== Getter 函数 =====
+    // ===== Getter functions =====
 
-    /// 获取 NFT 名称
+    /// Get NFT name
     public fun name(nft: &MoodZooNFT): &String {
         &nft.name
     }
 
-    /// 获取 NFT 描述
+    /// Get NFT description
     public fun description(nft: &MoodZooNFT): &String {
         &nft.description
     }
 
-    /// 获取 NFT URL
+    /// Get NFT URL
     public fun url(nft: &MoodZooNFT): &Url {
         &nft.url
     }
 
-    /// 获取 NFT 情绪
+    /// Get NFT emotion
     public fun emotion(nft: &MoodZooNFT): &String {
         &nft.emotion
     }
 
-    /// 获取 NFT 动物
+    /// Get NFT animal
     public fun animal(nft: &MoodZooNFT): &String {
         &nft.animal
     }
 
-    /// 获取 NFT 创建者
+    /// Get NFT creator
     public fun creator(nft: &MoodZooNFT): address {
         nft.creator
     }
