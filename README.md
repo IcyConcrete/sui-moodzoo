@@ -1,31 +1,32 @@
-MoodZoo is a playful, emotional NFT minting platform that combines mood-based audio uploads with AI-generated animal visuals, all on the Sui blockchain. Below is the complete user journey for the MVP.
-+------------------------+       +-----------------------------+       +------------------------+       +-----------------------------+
-|   Visit MoodZoo        |  -->  |   Connect Wallet / Sign In  |  -->  | Upload Audio + Choose Mood |  -->  | Animal Generation + NFT Preview |
-+------------------------+       +-----------------------------+       +------------------------+       +-----------------------------+
-        🐾                        User clicks “Connect Wallet”             Upload or drag & drop audio       🎨 Generate animal + mood metadata
-MoodZoo landing page      Use MetaMask or Sui Wallet for login         Choose mood tag + add description  Preview generated NFT cover image
-Displays brand & vibe     (identity auto-detected)                     Click “Next” to continue            Click “MINT NFT” to proceed
++---------------------+       +---------------------------+       +--------------------------+       +-------------------------------+
+|   Enter MoodZoo     |  -->  | Connect Wallet / Sign In  |  -->  | Upload Audio + Select Mood |  -->  | AI Animal + NFT Preview        |
++---------------------+       +---------------------------+       +--------------------------+       +-------------------------------+
+| 🐾 Homepage shows   |       | Use Sui Wallet / MetaMask |       | Drag audio + pick emotion |       | 🎨 Cute animal + mood metadata |
+| MoodZoo branding    |       | Auto detect identity      |       | Add mood description      |       | NFT preview shown              |
+| Call-to-Action:     |       |                           |       | Click “Next”              |       | Click “Mint NFT”               |
+| [Connect Wallet]    |       |                           |       |                           |       |                               |
 
-                     ↓                                                     ↓
-+------------------------------+                          +---------------------------------+
-|   Mint NFT (IPFS + Sui)      |  <----------------------  |   User Confirms Minting         |
-+------------------------------+                          +---------------------------------+
-Upload audio + mood data to IPFS                             Show contract confirmation screen  
-Mint NFT on Sui blockchain                                   On confirm, write to chain  
-Redirect to NFT gallery view                                 Show “Mint Successful” message
+                                              ↓
+                        +------------------------------+       +-------------------------------+
+                        |   Mint NFT (IPFS + Sui)      |  <--  |  Confirm Mint Transaction     |
+                        +------------------------------+       +-------------------------------+
+                        | Upload mood + audio to IPFS  |       | Show smart contract popup     |
+                        | Mint Sui NFT on-chain        |       | User signs & confirms mint    |
+                        | Redirect to gallery          |       | “Success” screen              |
 
-                     ↓
-+------------------------------+       +---------------------------------------------+
-|  Explore MoodZoo Gallery     |  -->  |  View NFT Detail Page (w/ Like & Info)       |
-+------------------------------+       +---------------------------------------------+
-Browse NFTs by mood category             Display: audio player, mood info, animal art  
-Users can ❤️ Like or comment            On-chain data, IPFS link, mint timestamp  
-Explore trending moods & leaderboard     “Back to Gallery” button available
+                                              ↓
++----------------------------+         +--------------------------------+
+|   Explore MoodZoo Gallery  |  -->    |     NFT Detail View            |
++----------------------------+         +--------------------------------+
+| Browse NFTs by emotion     |         | ▶️ Play mood audio             |
+| ❤️ Like, view, share       |         | 🐶 Mood + animal + timestamp   |
+| Top moods / leaderboards   |         | 📦 IPFS link / NFT ID / Likes  |
+                                   | ← [Back to Gallery]             |
 
-                     ↓
-+------------------------------+       
-|  Degen Animal Page (Bonus)   |
-+------------------------------+
-Browse a special Meme NFT collection  
-Includes viral pets, quotes, and degen humor  
-Option to mint limited edition Degen NFTs  
+                                              ↓
++-----------------------------+
+|   Degen Animal Collection   |
++-----------------------------+
+| Meme animal NFT sets        |
+| Pet faces, viral quotes     |
+| Mint special Degen NFTs     |
