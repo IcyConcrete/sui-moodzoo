@@ -1,32 +1,28 @@
-+---------------------+       +---------------------------+       +--------------------------+       +-------------------------------+
-|   Enter MoodZoo     |  -->  | Connect Wallet / Sign In  |  -->  | Upload Audio + Select Mood |  -->  | AI Animal + NFT Preview        |
-+---------------------+       +---------------------------+       +--------------------------+       +-------------------------------+
-| 🐾 Homepage shows   |       | Use Sui Wallet / MetaMask |       | Drag audio + pick emotion |       | 🎨 Cute animal + mood metadata |
-| MoodZoo branding    |       | Auto detect identity      |       | Add mood description      |       | NFT preview shown              |
-| Call-to-Action:     |       |                           |       | Click “Next”              |       | Click “Mint NFT”               |
-| [Connect Wallet]    |       |                           |       |                           |       |                               |
++--------------------+     +---------------------+     +---------------------+     +---------------------+
+|   Enter MoodZoo    | --> |  Connect Wallet     | --> |  Upload Audio       | --> |  Preview NFT        |
++--------------------+     +---------------------+     +---------------------+     +---------------------+
+| 🐾 Homepage        |     | Sui Wallet / MetaMask |   | Select Mood Tag     |     | 🎨 AI Animal + Mood |
+| Branding + CTA     |     | Auto Sign-In        |     | Add Description     |     | NFT Cover + Info    |
 
-                                              ↓
-                        +------------------------------+       +-------------------------------+
-                        |   Mint NFT (IPFS + Sui)      |  <--  |  Confirm Mint Transaction     |
-                        +------------------------------+       +-------------------------------+
-                        | Upload mood + audio to IPFS  |       | Show smart contract popup     |
-                        | Mint Sui NFT on-chain        |       | User signs & confirms mint    |
-                        | Redirect to gallery          |       | “Success” screen              |
+                              ↓                                      
+                    +---------------------+     +------------------------+
+                    |   Mint NFT (Sui)    | <-- | Confirm Minting        |
+                    +---------------------+     +------------------------+
+                    | Upload to IPFS      |     | Smart Contract Prompt  |
+                    | On-chain Mint       |     | User Signs + Success   |
 
-                                              ↓
-+----------------------------+         +--------------------------------+
-|   Explore MoodZoo Gallery  |  -->    |     NFT Detail View            |
-+----------------------------+         +--------------------------------+
-| Browse NFTs by emotion     |         | ▶️ Play mood audio             |
-| ❤️ Like, view, share       |         | 🐶 Mood + animal + timestamp   |
-| Top moods / leaderboards   |         | 📦 IPFS link / NFT ID / Likes  |
-                                   | ← [Back to Gallery]             |
+                              ↓
++--------------------+     +------------------------+
+| Explore Gallery    | --> |   NFT Detail View      |
++--------------------+     +------------------------+
+| Browse by Mood     |     | ▶️ Audio Playback       |
+| ❤️ Like NFTs       |     | 🐶 Mood + Animal + Time |
+| Top Charts         |     | 📦 IPFS, ID, Likes      |
 
-                                              ↓
-+-----------------------------+
-|   Degen Animal Collection   |
-+-----------------------------+
-| Meme animal NFT sets        |
-| Pet faces, viral quotes     |
-| Mint special Degen NFTs     |
+                              ↓
++--------------------+
+|  Degen Collection  |
++--------------------+
+| Meme Animals       |
+| Pet Avatars        |
+| Mint Degen NFTs    |
